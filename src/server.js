@@ -31,5 +31,5 @@ network.listen(network.get('port'), () => {
 
 // Catch Bot Connector message
 global.bc.onTextMessage((data) => {
-  script.bcMessage
+  script.bcMessage(data)
 })

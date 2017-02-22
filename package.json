@@ -49,7 +49,8 @@
         "camelcase": 0,
         "id-length": 0,
         "no-inline-comments": 0,
-        "no-undefined": 0
+        "no-undefined": 0,
+        "quote-props": 0
       }
     }
 }
