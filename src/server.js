@@ -4,11 +4,14 @@ import Connector from 'recastai-botconnector'
 import cfg from '../config/private'
 import request from 'superagent'
 import Script from './script'
+import { Client, Conversation } from 'recastai'
 
 import debug from 'util'
 global.dump = function dump (mVar) { process.stdout.write(`${debug.inspect(mVar)}\r\n`) }
 global.log = mVar => { process.stdout.write(`${mVar}\r\n`) }
 
+global.Conversation = Conversation
+global.recast = new Client(cfg.recast.token, cfg.recast.language)
 global.bc = new Connector(cfg.connector)
 const script = new Script()
 
