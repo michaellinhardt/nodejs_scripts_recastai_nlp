@@ -3,16 +3,14 @@ import bodyParser from 'body-parser'
 import Connector from 'recastai-botconnector'
 import cfg from '../config/private'
 import request from 'superagent'
+import Script from './script'
 
 import debug from 'util'
 global.dump = function dump (mVar) { process.stdout.write(`${debug.inspect(mVar)}\r\n`) }
-global.log = mVar => {
-  if (cfg.log_terminal === true) {
-    process.stdout.write(`${mVar}\r\n`)
-  }
-}
+global.log = mVar => { process.stdout.write(`${mVar}\r\n`) }
 
 global.bc = new Connector(cfg.connector)
+const script = new Script()
 
 const network = express()
 network.set('port', cfg.port)
@@ -21,6 +19,7 @@ network.use('/', (req, res) => global.bc.listen(req, res))
 
 network.listen(network.get('port'), () => {
   global.log(`Script is listening port ${network.get('port')}`)
+  script.start()
 })
 
 global.bc.onTextMessage((data) => {
