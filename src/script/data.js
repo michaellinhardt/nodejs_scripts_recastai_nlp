@@ -1,4 +1,4 @@
-module.export = {
+module.exports = {
   'Afghanistan': ['AF', 'AFG', '004'],
   'ALA Aland Islands': ['AX', 'ALA', '248'],
   'Albania': ['AL', 'ALB', '008'],
