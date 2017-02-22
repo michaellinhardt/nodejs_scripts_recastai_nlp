@@ -1,11 +1,12 @@
 import cfg from '../config/private'
-// import country from './script/data'
-// import _ from 'lodash'
+import country from './script/data'
+import _ from 'lodash'
 
 export default class Script {
   constructor () {
     this.bloc('Script class is constructed')
     this.itimer = 0
+    this.data = []
   }
 
   bloc (title, data, whiteline) {
@@ -14,7 +15,11 @@ export default class Script {
     global.log(`### ${title}`)
     global.log('############################################################')
     if (!data) { return }
-    global.dump(data)
+    if (typeof data === 'string') {
+      global.dump(data)
+    } else if (typeof data === 'object') {
+      _.each(data, (str) => { global.dump(str) })
+    }
     global.log('############################################################')
   }
 
@@ -39,28 +44,29 @@ export default class Script {
     this.bloc(`class Script, method: ${method}\r\n${err}`)
   }
 
-  async txtReq (text) {
+  async operation (title, initial) {
     try {
-      global.dump('1')
-      const res = await global.recast.textRequest(text, { language: 'fr' })
-      this.bloc('TEXT REQUEST RETURN VALID', { send: text, res })
+      this.bloc('OPERATION DONE', { title, initial })
+      this.data.push(`'${title.toLowerCase()}': '${initial}',`)
     } catch (err) {
-      this.bloc('TEXT REQUEST RETURN ERROR', { send: text, err })
+      this.bloc('OPERATION ERROR', { title, initial, err })
     }
-    global.dump('2')
     return undefined
   }
 
   async start () {
     this.bloc('Starting the script!')
-    const lala = { France: ['aa'], Chine: ['aa'], Japon: ['aa'] }
+    this.data.push('module.exports = {')
     try {
-      for (const key of Object.keys(lala)) {
-        await this.txtReq(key)
+      for (const initial of Object.keys(country)) {
+        await this.operation(initial, country[initial])
       }
     } catch (err) {
       this.bloc('ERROR IN COUNTRY LOOP', err)
     }
+    this.data.push('}')
+    this.bloc('RESULTAT', this.data)
+    process.exit()
   }
 
   bcMessage (data) {
