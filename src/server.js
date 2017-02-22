@@ -1,50 +1,35 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import Connector from 'recastai-botconnector'
-import cfg from '../config/private'
-import request from 'superagent'
-import Script from './script'
 import { Client, Conversation } from 'recastai'
-
 import debug from 'util'
+import request from 'superagent'
+
+import cfg from '../config/private'
+import Script from './script'
+
+// Debug tools
 global.dump = function dump (mVar) { process.stdout.write(`${debug.inspect(mVar)}\r\n`) }
 global.log = mVar => { process.stdout.write(`${mVar}\r\n`) }
 
+// Post & Recast & Bot Connector SDK
 global.Conversation = Conversation
 global.recast = new Client(cfg.recast.token, cfg.recast.language)
 global.bc = new Connector(cfg.connector)
+global.request = request
 const script = new Script()
 
+// Listen port
 const network = express()
 network.set('port', cfg.port)
 network.use(bodyParser.json())
 network.use('/', (req, res) => global.bc.listen(req, res))
 
 network.listen(network.get('port'), () => {
-  global.log(`Script is listening port ${network.get('port')}`)
   script.start()
 })
 
+// Catch Bot Connector message
 global.bc.onTextMessage((data) => {
-  global.dump(data.content.attachment)
-
-  const message = [{
-    type: 'text',
-    content: `${data.content.attachment.content}`,
-  }]
-
-  request.post(`${cfg.connector.url}/users/${cfg.connector.userSlug}/bots/${cfg.connector.botId}/conversations/${data.content.conversation}/messages`)
-    .set({ Authorization: cfg.connector.userToken })
-    .send({ message, senderId: data.senderId })
-    .end((err, res) => {
-      global.dump(res)
-
-      if (err) {
-        global.dump('Fail to send message!!')
-        global.dump(err)
-      } else {
-        global.dump('Message Send OOOK!!!')
-      }
-    })
-
+  script.bcMessage
 })
