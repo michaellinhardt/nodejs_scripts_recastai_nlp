@@ -47,7 +47,7 @@ export default class Script {
   async operation (title, initial) {
     try {
       this.bloc('OPERATION DONE', { title, initial })
-      this.data.push(`'${title.toLowerCase()}': '${initial}',`)
+      this.data.push(`"${title.toLowerCase()}";"${initial}"`)
     } catch (err) {
       this.bloc('OPERATION ERROR', { title, initial, err })
     }
@@ -56,7 +56,7 @@ export default class Script {
 
   async start () {
     this.bloc('Starting the script!')
-    this.data.push('module.exports = {')
+    this.data.push('"value";"language"')
     try {
       for (const initial of Object.keys(country)) {
         await this.operation(initial, country[initial])
@@ -64,7 +64,6 @@ export default class Script {
     } catch (err) {
       this.bloc('ERROR IN COUNTRY LOOP', err)
     }
-    this.data.push('}')
     this.bloc('RESULTAT', this.data)
     process.exit()
   }
