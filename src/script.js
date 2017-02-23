@@ -1,12 +1,12 @@
 import cfg from '../config/private'
-import country from './script/data'
 import _ from 'lodash'
+import request from 'request'
+// import axios from 'axios'
 
 export default class Script {
   constructor () {
     this.bloc('Script class is constructed')
     this.itimer = 0
-    this.data = []
   }
 
   bloc (title, data, whiteline) {
@@ -47,7 +47,6 @@ export default class Script {
   async operation (title, initial) {
     try {
       this.bloc('OPERATION DONE', { title, initial })
-      this.data.push(`"${title.toLowerCase()}";"${initial}"`)
     } catch (err) {
       this.bloc('OPERATION ERROR', { title, initial, err })
     }
@@ -56,16 +55,28 @@ export default class Script {
 
   async start () {
     this.bloc('Starting the script!')
-    this.data.push('"value";"language"')
     try {
-      for (const initial of Object.keys(country)) {
-        await this.operation(initial, country[initial])
-      }
+      let dataUri
+      const url = 'http://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png'
+
+      await request.get({ url, encoding: null }, (err, res, body) => {
+        if (!err) {
+          const type = res.headers['content-type']
+          const prefix = `data: ${type} ;base64,`
+          const base64 = body.toString('base64')
+          dataUri = prefix + base64
+          this.bloc(dataUri)
+          process.exit()
+        }
+      })
+
+      // const { data } = await axios.get(url)
+      //
+      // this.bloc('RETURN', data.toString('base64'))
+
     } catch (err) {
-      this.bloc('ERROR IN COUNTRY LOOP', err)
+      this.bloc('ERROR IN START METHOD', err)
     }
-    this.bloc('RESULTAT', this.data)
-    process.exit()
   }
 
   bcMessage (data) {
