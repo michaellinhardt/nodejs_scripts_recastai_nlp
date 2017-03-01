@@ -20,7 +20,7 @@ export default class Helper {
     global.log('############################################################')
   }
 
-  constructed ( tab, name ) { global.log(`${tab}- ${name} is constructed`) }
+  constructed (tab, name) { global.log(`${tab}- ${name} is constructed`) }
 
   post (url, data, token, log) {
     this.bloc('POSTING DATA', { post_url: url, post_data: data })
