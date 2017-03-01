@@ -2,8 +2,8 @@ import cfg from '../config/private'
 import _ from 'lodash'
 
 export default class Helper {
-  constructor () {
-    this.bloc('Helper is constructed')
+  constructor (tab) {
+    this.constructed(tab, 'Helper')
   }
 
   bloc (title, data, whiteline) {
@@ -19,6 +19,8 @@ export default class Helper {
     }
     global.log('############################################################')
   }
+
+  constructed ( tab, name ) { global.log(`${tab}- ${name} is constructed`) }
 
   post (url, data, token, log) {
     this.bloc('POSTING DATA', { post_url: url, post_data: data })

@@ -17,7 +17,7 @@ global.Conversation = Conversation
 global.recast = new Client(cfg.recast.token, cfg.recast.language)
 global.bc = new Connector(cfg.connector)
 global.request = request
-const script = new Script()
+const script = new Script('')
 
 // Listen port
 const network = express()
