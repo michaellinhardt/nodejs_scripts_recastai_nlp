@@ -1,5 +1,6 @@
-import cfg from '../config/private'
 import _ from 'lodash'
+import json from 'prettyjson'
+import cfg from '../config/private'
 
 export default class Helper {
   constructor (tab) {
@@ -21,6 +22,8 @@ export default class Helper {
   }
 
   constructed (tab, name) { global.log(`${tab}- ${name} is constructed`) }
+
+  json (object) { global.log(json.render(object)) }
 
   post (url, data, token, log) {
     this.bloc('POSTING DATA', { post_url: url, post_data: data })
