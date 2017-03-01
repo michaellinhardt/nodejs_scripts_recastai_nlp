@@ -1,12 +1,19 @@
 import cfg from '../config/private'
 import _ from 'lodash'
-import request from 'request'
-// import axios from 'axios'
 
 export default class Script {
   constructor () {
     this.bloc('Script class is constructed')
     this.itimer = 0
+  }
+
+  async start () {
+    this.bloc('Starting the script!')
+    try {
+      this.operation({ data: 'lol' })
+    } catch (err) {
+      this.bloc('ERROR IN START METHOD', err)
+    }
   }
 
   bloc (title, data, whiteline) {
@@ -44,39 +51,13 @@ export default class Script {
     this.bloc(`class Script, method: ${method}\r\n${err}`)
   }
 
-  async operation (title, initial) {
+  async operation (data) {
     try {
-      this.bloc('OPERATION DONE', { title, initial })
+      this.bloc('OPERATION DONE', { data })
     } catch (err) {
-      this.bloc('OPERATION ERROR', { title, initial, err })
+      this.bloc('OPERATION ERROR', { data, err })
     }
     return undefined
-  }
-
-  async start () {
-    this.bloc('Starting the script!')
-    try {
-      let dataUri
-      const url = 'http://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png'
-
-      await request.get({ url, encoding: null }, (err, res, body) => {
-        if (!err) {
-          const type = res.headers['content-type']
-          const prefix = `data: ${type} ;base64,`
-          const base64 = body.toString('base64')
-          dataUri = prefix + base64
-          this.bloc(dataUri)
-          process.exit()
-        }
-      })
-
-      // const { data } = await axios.get(url)
-      //
-      // this.bloc('RETURN', data.toString('base64'))
-
-    } catch (err) {
-      this.bloc('ERROR IN START METHOD', err)
-    }
   }
 
   bcMessage (data) {
