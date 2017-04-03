@@ -5,10 +5,8 @@ export default class Script extends Helper {
   async start () {
     this.bloc('Starting the script!')
     try {
-      this.bloc('Hello')
-    } catch (err) {
-      this.bloc('ERROR IN START METHOD', err)
-    }
+      global.log('ok')
+    } catch (err) { this.bloc('ERROR IN START METHOD', err) }
     process.exit(0)
   }
 
