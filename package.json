@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node ./node_modules/babel-cli/bin/babel-node.js src/server.js",
-    "start-dev": "node ./node_modules/babel-cli/bin/babel-node.js src/server.js",
+    "start-dev": "nodemon --exec babel-node -- src/server.js",
     "lint": "eslint src/"
   },
   "author": "Michael Linhardt",
@@ -26,8 +26,9 @@
     "mongoose": "^4.7.6",
     "node-base64-image": "^1.0.3",
     "nodemon": "^1.11.0",
-    "recastai": "^2.2.1",
-    "recastai-botconnector": "^1.0.1"
+    "prettyjson": "^1.2.1",
+    "superagent": "^3.5.2",
+    "superagent-promise": "^1.1.0"
   },
   "babel": {
     "presets": [
