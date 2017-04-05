@@ -3,39 +3,23 @@ import Helper from './helper'
 import Recastapi from './recastapi'
 
 const source = {
-  user: 'lucasdchamps',
-  bot: 'sfr-bot',
-  token: '67f986b5299181a7dd49de6ccce3429a',
-  intent: 'erreur_nom',
-}
-source.url = `https://api.recast.ai/v2/users/${source.user}/bots/${source.bot}`
-
-const target = {
   user: 'michael-linhardt',
   bot: 'fork-intent',
   token: '1591381a501fc1de88051797076b81ea',
   intent: 'test_merge',
 }
-target.url = `https://api.recast.ai/v2/users/${target.user}/bots/${target.bot}`
+source.url = `https://api.recast.ai/v2/users/${source.user}/bots/${source.bot}`
 
 export default class Script extends Helper {
   constructor () {
     super()
     this.mode = 'starting'
     this.source = new Recastapi(source.user, source.bot, source.token)
-    this.target = new Recastapi(target.user, target.bot, target.token)
   }
 
   async start () {
     this.bloc('Starting the script!')
     try {
-
-      // check or create the target intent
-      this.log(`*** check if intent '${target.intent}' exist in bot '${target.bot}'`)
-      if (await this.target.isIntent(target.intent) < 0) {
-        this.log(`*** create the missing intent '${target.intent}' in bot '${target.bot}'`)
-        await this.target.addIntent(target.intent)
-      }
 
       // check if the source intent exist
       this.log(`*** check if intent '${source.intent}' exist in bot '${source.bot}'`)
@@ -47,32 +31,27 @@ export default class Script extends Helper {
       source.expressions = await this.source.getExpressions(source.intent)
       source.expressions = source.expressions.expressions
 
-      this.log(`*** get expressions from intent '${target.intent}' in bot '${target.bot}'`)
-      target.expressions = await this.target.getExpressions(target.intent)
-      target.expressions = target.expressions.expressions
+      const total = await this.verifNext(source.expressions, 0, 0)
 
-      // extract unique expression
-      const newExpressions = []
-      _.forEach(source.expressions, value => {
-        if (_.findIndex(target.expressions, { source: value.source }) === -1
-        && _.findIndex(newExpressions, { source: value.source }) === -1) {
-          const expression = {
-            source: value.source,
-            language: {
-              isocode: value.language.isocode,
-            },
-          }
-          newExpressions.push(expression)
-        }
-      })
+      this.exit(`done, removed ${total} expression(s)`)
 
-      this.log(`*** add ${newExpressions.length} expression`)
-      if (newExpressions.length > 0) {
-        await this.target.addExpressions(target.intent, newExpressions)
+    } catch (error) { this.bloc('Error in start method', `${error}`) }
+  }
+
+  async verifNext (expressions, key, total) {
+    try {
+      if (!expressions[key]) { return total }
+
+      const find = _.findIndex(expressions, { source: expressions[key].source })
+
+      if (find === -1) { return await this.verifNext(expressions, key + 1, total) }
+
+      if (expressions[key].id !== expressions[find].id) {
+        total += 1
+        await this.source.delExpression(source.intent, expressions[key].id)
       }
 
-      this.exit('done')
-
+      return await this.verifNext(expressions, key + 1, total)
     } catch (error) { this.bloc('Error in start method', `${error}`) }
   }
 
