@@ -33,9 +33,30 @@ export default class Recastapi extends Helper {
     })
   }
 
+  addExpressions (intent, expressions) {
+    return new Promise((resolve, reject) => {
+      request
+        .post(`${this.url}/intents/${intent}/expressions/bulk_create`)
+        .set('Authorization', `Token ${this.token}`)
+        .send({ expressions })
+        .end((err, res) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(res.body.results)
+          }
+        })
+    })
+  }
+
   async isExpression (intent, expression) {
     const { expressions } = await this.getExpressions(intent)
     return _.findIndex(expressions, { source: expression })
+  }
+
+  async isIntent (intent) {
+    const intents = await this.getIntents()
+    return _.findIndex(intents, { name: intent })
   }
 
   getIntents () {
@@ -84,10 +105,5 @@ export default class Recastapi extends Helper {
           }
         })
     })
-  }
-
-  async isIntent (intent) {
-    const intents = await this.getIntents()
-    return _.findIndex(intents, { name: intent })
   }
 }
