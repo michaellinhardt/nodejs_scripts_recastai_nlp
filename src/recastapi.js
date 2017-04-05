@@ -1,0 +1,93 @@
+import _ from 'lodash'
+import request from 'superagent'
+
+import Helper from './helper'
+
+const apiBaseUrl = 'https://api.recast.ai/v2/users'
+
+export default class Recastapi extends Helper {
+  constructor (user, bot, token) {
+    super()
+    this.user = user
+    this.bot = bot
+    this.token = token
+    this.url = `${apiBaseUrl}/${user}/bots/${bot}`
+  }
+
+  addExpression (intent, expression, lang) {
+    return new Promise((resolve, reject) => {
+      request
+        .post(`${this.url}/intents/${intent}/expressions`)
+        .set('Authorization', `Token ${this.token}`)
+        .send({
+          source: expression,
+          language: { isocode: lang },
+        })
+        .end((err, res) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(res.body.results)
+          }
+        })
+    })
+  }
+
+  async isExpression (intent, expression) {
+    const { expressions } = await this.getExpressions(intent)
+    return _.findIndex(expressions, { source: expression })
+  }
+
+  getIntents () {
+    return new Promise((resolve, reject) => {
+      request
+        .get(`${this.url}/intents`)
+        .set('Authorization', `Token ${this.token}`)
+        .send()
+        .end((err, res) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(res.body.results)
+          }
+        })
+    })
+  }
+
+  addIntent (intent) {
+    return new Promise((resolve, reject) => {
+      request
+        .post(`${this.url}/intents`)
+        .set('Authorization', `Token ${this.token}`)
+        .send({ name: intent, expressions: [] })
+        .end((err, res) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(res.body.results)
+          }
+        })
+    })
+  }
+
+  getExpressions (intent) {
+    return new Promise((resolve, reject) => {
+      request
+        .get(`${this.url}/intents/${intent}`)
+        .set('Authorization', `Token ${this.token}`)
+        .send()
+        .end((err, res) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(res.body.results)
+          }
+        })
+    })
+  }
+
+  async isIntent (intent) {
+    const intents = await this.getIntents()
+    return _.findIndex(intents, { name: intent })
+  }
+}
