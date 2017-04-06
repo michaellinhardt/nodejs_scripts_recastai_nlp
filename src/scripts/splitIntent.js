@@ -3,34 +3,13 @@ import _ from 'lodash'
 import Helper from '../helper'
 import Recastapi from '../recastapi'
 import Terminal from '../terminal'
+import token from '../config/token'
 
-// const source = {
-//   user: 'lucasdchamps',
-//   bot: 'sfr-bot',
-//   token: '67f986b5299181a7dd49de6ccce3429a',
-//   intent: 'probleme_facture_splitting',
-// }
-const source = {
-  user: 'recast-ai',
-  bot: 'sfr',
-  token: '5b3f5d6f7a5bc2138558c5c24f60396e',
-  intent: 'probleme_facture_splitting',
-}
-source.url = `https://api.recast.ai/v2/users/${source.user}/bots/${source.bot}`
+const source = { ...token.sfr }
+source.intent = 'probleme_facture_splitting'
 
-const target = {
-  user: 'recast-ai',
-  bot: 'sfr',
-  token: '5b3f5d6f7a5bc2138558c5c24f60396e',
-  intent: ['ecart-facturation', 'hors-forfait'],
-  intents: [],
-}
-target.url = `https://api.recast.ai/v2/users/${target.user}/bots/${target.bot}`
-
-const intentLayout = {
-  name: '',
-  isCreated: false,
-}
+const target = { ...token.sfr }
+target.intent = ['ecart-facturation', 'hors-forfait']
 
 export default class Script extends Helper {
   constructor () {
@@ -44,6 +23,8 @@ export default class Script extends Helper {
   async start () {
     this.bloc('Starting the script!')
     try {
+
+      target.intents = []
 
       this.log(`*** check if intent '${source.intent}' exist in bot '${source.bot}'`)
       if (await this.source.isIntent(source.intent) < 0) {
@@ -130,8 +111,7 @@ export default class Script extends Helper {
 
   buildLayout () {
     _.forEach(target.intent, value => {
-      intentLayout.name = value
-      target.intents.push({ ...intentLayout })
+      target.intents.push({ name: value, isCreated: false })
     })
   }
 

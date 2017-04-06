@@ -1,28 +1,13 @@
 import _ from 'lodash'
 import Helper from '../helper'
 import Recastapi from '../recastapi'
+import token from '../config/token'
 
-const source = {
-  user: 'lucasdchamps',
-  bot: 'sfr-bot',
-  token: '67f986b5299181a7dd49de6ccce3429a',
-  intent: 'changer_mobile',
-}
-source.url = `https://api.recast.ai/v2/users/${source.user}/bots/${source.bot}`
+const source = { ...token.lucas_sfr }
+source.intent = 'changer_mobile'
 
-// const target = {
-//   user: 'michael-linhardt',
-//   bot: 'fork-intent',
-//   token: '1591381a501fc1de88051797076b81ea',
-//   intent: 'test_merge',
-// }
-const target = {
-  user: 'recast-ai',
-  bot: 'sfr',
-  token: '5b3f5d6f7a5bc2138558c5c24f60396e',
-  intent: 'nouveau-mobile',
-}
-target.url = `https://api.recast.ai/v2/users/${target.user}/bots/${target.bot}`
+const target = { ...token.sfr }
+target.intent = 'nouveau-mobile'
 
 export default class Script extends Helper {
   constructor () {

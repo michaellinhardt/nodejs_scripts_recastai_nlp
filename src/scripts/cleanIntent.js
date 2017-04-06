@@ -1,14 +1,10 @@
 import _ from 'lodash'
+import token from '../config/token'
 import Helper from '../helper'
 import Recastapi from '../recastapi'
 
-const source = {
-  user: 'michael-linhardt',
-  bot: 'fork-intent',
-  token: '1591381a501fc1de88051797076b81ea',
-  intent: 'test_merge',
-}
-source.url = `https://api.recast.ai/v2/users/${source.user}/bots/${source.bot}`
+const source = { ...token.fork_intent }
+source.intent = 'test_merge'
 
 export default class Script extends Helper {
   constructor () {
