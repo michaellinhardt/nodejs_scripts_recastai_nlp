@@ -108,6 +108,11 @@ export default class Script extends Helper {
         }
       }
 
+      // remove expression to source
+      this.log(`*** remove expression to intent '${source.intent}' in bot '${source.bot}'`)
+      this.json(source.expressions[0])
+      await this.source.delExpression(source.intent, source.expressions[0].id)
+
       // verify if expression already exist
       if (await this.target.isExpression(target.intent[key], source.expressions[0].source) !== -1) {
         this.log(`*** expression already exist inside intent '${target.intent[key]}' in bot '${target.bot}'`)
@@ -119,10 +124,6 @@ export default class Script extends Helper {
       this.log(`*** add expression to intent '${target.intent[key]}' in bot '${target.bot}'`)
       await this.target.addExpression(target.intent[key], source.expressions[0].source, source.expressions[0].language.isocode)
       source.expressions.shift()
-
-      // remove expression to source
-      this.log(`*** remove expression to intent '${source.intent}' in bot '${source.bot}'`)
-      await this.source.delExpression(source.intent, source.expressions[0].id)
 
     } catch (error) { this.bloc('Error in addExpressionTo method', `${error}`) }
   }
