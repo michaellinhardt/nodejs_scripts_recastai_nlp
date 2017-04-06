@@ -2,10 +2,10 @@
   "name": "script",
   "version": "0.1.0",
   "description": "Used to run script on bot",
-  "main": "src/server.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node ./node_modules/babel-cli/bin/babel-node.js src/server.js",
-    "start-dev": "nodemon --exec babel-node -- src/server.js",
+    "start": "node ./node_modules/babel-cli/bin/babel-node.js src/app.js",
+    "start-dev": "nodemon --exec babel-node -- src/app.js",
     "lint": "eslint src/"
   },
   "author": "Michael Linhardt",
