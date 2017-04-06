@@ -1,9 +1,9 @@
 import request from 'superagent'
 import _ from 'lodash'
 
-import Helper from './helper'
-import Recastapi from './recastapi'
-import Terminal from './terminal'
+import Helper from '../helper'
+import Recastapi from '../recastapi'
+import Terminal from '../terminal'
 
 const source = {
   user: 'lucasdchamps',
