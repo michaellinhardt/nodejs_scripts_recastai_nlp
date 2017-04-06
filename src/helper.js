@@ -6,6 +6,11 @@ export default class Helper {
   log (mVar) { process.stdout.write(`${mVar}\r\n`) }
   err (method, error) { this.bloc(`Error method: ${method}\r\n${error}`) }
 
+  exit (msg) {
+    if (msg) { this.log(`*** processing is over: ${msg}`) }
+    process.exit(0)
+  }
+
   bloc (title, data, whiteline) {
     if (whiteline) { this.log('.') }
     process.stdout.write('\r\n')

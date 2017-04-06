@@ -91,12 +91,12 @@ export default class Recastapi extends Helper {
     })
   }
 
-  addIntent (intent) {
+  addIntent (intent, expressions = []) {
     return new Promise((resolve, reject) => {
       request
         .post(`${this.url}/intents`)
         .set('Authorization', `Token ${this.token}`)
-        .send({ name: intent, expressions: [] })
+        .send({ name: intent, expressions })
         .end((err, res) => {
           if (err) {
             reject(err)

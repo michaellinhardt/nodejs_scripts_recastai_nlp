@@ -54,9 +54,4 @@ export default class Script extends Helper {
       return await this.verifNext(expressions, key + 1, total)
     } catch (error) { this.bloc('Error in start method', `${error}`) }
   }
-
-  exit (msg) {
-    if (msg) { this.log(`*** processing is over: ${msg}`) }
-    process.exit(0)
-  }
 }

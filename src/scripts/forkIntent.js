@@ -1,4 +1,3 @@
-import request from 'superagent'
 import _ from 'lodash'
 import Helper from '../helper'
 import Recastapi from '../recastapi'
@@ -21,7 +20,7 @@ const target = {
   user: 'recast-ai',
   bot: 'sfr',
   token: '5b3f5d6f7a5bc2138558c5c24f60396e',
-  intent: 'souscrire-abonnement',
+  intent: 'test',
 }
 target.url = `https://api.recast.ai/v2/users/${target.user}/bots/${target.bot}`
 
@@ -36,108 +35,39 @@ export default class Script extends Helper {
     this.bloc('Starting the script!')
     try {
 
-      this.log('verif is target already have this intent')
-      if (await this.targetIntentExist() === true) { throw Error(`intent '${target.intent}' already exist in target`) }
+      // check if the target intent exist
+      this.log(`*** check if intent '${target.intent}' exist in bot '${target.bot}'`)
+      if (await this.target.isIntent(target.intent) > -1) {
+        this.exit(`intent '${target.intent}' already exist in bot '${target.bot}'`)
+      }
 
-      this.log('verif is source have this intent')
-      source.intent = await this.getSourceIntent()
-      this.log('get expressions from source')
-      this.expressions = (await this.getExpressionList(source)).expressions
+      // check if the source intent exist
+      this.log(`*** check if intent '${source.intent}' exist in bot '${source.bot}'`)
+      if (await this.source.isIntent(source.intent) < 0) {
+        this.exit(`intent '${source.intent}' doesn't exist in bot '${source.bot}'`)
+      }
 
-      this.log('add expressions to target')
-      await this.addIntent(target)
+      // get expressions from source
+      this.log(`*** get expressions from intent '${source.intent}' in bot '${source.bot}'`)
+      source.expressions = (await this.source.getExpressions(source.intent)).expressions
 
-      this.bloc('Fork intent done')
+      // build expressions list for request
+      const newExpressions = []
+      _.forEach(source.expressions, value => {
+        const expression = {
+          source: value.source,
+          language: {
+            isocode: value.language.isocode,
+          },
+        }
+        newExpressions.push(expression)
+      })
+
+      this.log(`*** create intent '${target.intent}' in bot '${target.bot}' with ${source.expressions.length} expressions`)
+      await this.target.addIntent(target.intent, newExpressions)
+
+      this.exit('fork intent done')
 
     } catch (error) { this.bloc('Error in start method', `${error}`) }
-    process.exit(0)
-  }
-
-  async targetIntentExist () {
-    try {
-      // no intent param
-      if (!target.intent || _.isEmpty(target.intent)) { throw Error('no target intent') }
-
-      // verif if target.intent exist
-      const intent = []
-      _.forEach(await this.getIntentList(target), value => {
-        if (value.slug.toLowerCase() === target.intent.toLowerCase()) { intent.push(value) }
-      })
-      if (intent.length > 0) { return true }
-
-      return false
-    } catch (error) { this.bloc('Error in targetIntentExist method', `${error}`) }
-    return true
-  }
-
-  async getSourceIntent () {
-    try {
-      // no intent param
-      if (!source.intent || _.isEmpty(source.intent)) { throw Error('no source intent') }
-
-      // verif if source.intent exist
-      const intent = []
-      _.forEach(await this.getIntentList(source), value => {
-        if (value.slug.toLowerCase() === source.intent.toLowerCase()) { intent.push(value) }
-      })
-      if (intent.length !== 1) { throw Error('cant find the source intent') }
-
-      // assign target intent
-      return intent[0].slug
-    } catch (error) { this.bloc('Error in getSourceIntent method', `${error}`) }
-  }
-
-  getIntentList (param) {
-    return new Promise((resolve, reject) => {
-      request
-        .get(`${param.url}/intents`)
-        .set('Authorization', `Token ${param.token}`)
-        .send()
-        .end((err, res) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(res.body.results)
-          }
-        })
-    })
-  }
-
-  getExpressionList (param) {
-    return new Promise((resolve, reject) => {
-      request
-        .get(`${param.url}/intents/${param.intent}`)
-        .set('Authorization', `Token ${param.token}`)
-        .send()
-        .end((err, res) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(res.body.results)
-          }
-        })
-    })
-  }
-
-  addIntent (param) {
-    return new Promise((resolve, reject) => {
-      request
-        .post(`${param.url}/intents`)
-        .set('Authorization', `Token ${param.token}`)
-        .send({
-          name: param.intent,
-          expressions: this.expressions.map(expression => ({
-            source: expression.source,
-            language: { isocode: 'fr' },
-          })),
-        })
-        .end((err, res) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(res.body.results)
-          }
-        })
-    })
   }
 }

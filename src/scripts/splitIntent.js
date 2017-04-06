@@ -1,4 +1,3 @@
-import request from 'superagent'
 import _ from 'lodash'
 
 import Helper from '../helper'
@@ -140,32 +139,5 @@ export default class Script extends Helper {
     }, '')}`)
 
     this.mode = 'input_target_intent'
-  }
-
-  exit (msg) {
-    if (msg) { this.log(`*** processing is over: ${msg}`) }
-    process.exit(0)
-  }
-
-  addIntent (param) {
-    return new Promise((resolve, reject) => {
-      request
-        .post(`${param.url}/intents`)
-        .set('Authorization', `Token ${param.token}`)
-        .send({
-          name: param.intent,
-          expressions: this.expressions.map(expression => ({
-            source: expression.source,
-            language: { isocode: 'fr' },
-          })),
-        })
-        .end((err, res) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(res.body.results)
-          }
-        })
-    })
   }
 }
