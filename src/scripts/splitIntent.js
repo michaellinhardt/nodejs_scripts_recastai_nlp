@@ -4,19 +4,25 @@ import Helper from '../helper'
 import Recastapi from '../recastapi'
 import Terminal from '../terminal'
 
+// const source = {
+//   user: 'lucasdchamps',
+//   bot: 'sfr-bot',
+//   token: '67f986b5299181a7dd49de6ccce3429a',
+//   intent: 'probleme_facture_splitting',
+// }
 const source = {
-  user: 'lucasdchamps',
-  bot: 'sfr-bot',
-  token: '67f986b5299181a7dd49de6ccce3429a',
-  intent: 'changer_mode_paiement',
+  user: 'recast-ai',
+  bot: 'sfr',
+  token: '5b3f5d6f7a5bc2138558c5c24f60396e',
+  intent: 'probleme_facture_splitting',
 }
 source.url = `https://api.recast.ai/v2/users/${source.user}/bots/${source.bot}`
 
 const target = {
-  user: 'michael-linhardt',
-  bot: 'fork-intent',
-  token: '1591381a501fc1de88051797076b81ea',
-  intent: ['intent1', 'intent2'],
+  user: 'recast-ai',
+  bot: 'sfr',
+  token: '5b3f5d6f7a5bc2138558c5c24f60396e',
+  intent: ['ecart-facturation', 'hors-forfait'],
   intents: [],
 }
 target.url = `https://api.recast.ai/v2/users/${target.user}/bots/${target.bot}`
