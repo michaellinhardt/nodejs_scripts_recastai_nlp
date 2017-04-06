@@ -14,6 +14,22 @@ export default class Recastapi extends Helper {
     this.url = `${apiBaseUrl}/${user}/bots/${bot}`
   }
 
+  delExpression (intent, idExpression) {
+    return new Promise((resolve, reject) => {
+      request
+        .delete(`${this.url}/intents/${intent}/expressions/${idExpression}`)
+        .set('Authorization', `Token ${this.token}`)
+        .send()
+        .end((err, res) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(res.body.results)
+          }
+        })
+    })
+  }
+
   addExpression (intent, expression, lang) {
     return new Promise((resolve, reject) => {
       request
