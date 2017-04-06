@@ -1,6 +1,7 @@
 import request from 'superagent'
 import _ from 'lodash'
 import Helper from '../helper'
+import Recastapi from '../recastapi'
 
 const source = {
   user: 'lucasdchamps',
@@ -25,6 +26,12 @@ const target = {
 target.url = `https://api.recast.ai/v2/users/${target.user}/bots/${target.bot}`
 
 export default class Script extends Helper {
+  constructor () {
+    super()
+    this.source = new Recastapi(source.user, source.bot, source.token)
+    this.target = new Recastapi(target.user, target.bot, target.token)
+  }
+
   async start () {
     this.bloc('Starting the script!')
     try {
