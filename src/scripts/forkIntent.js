@@ -6,7 +6,7 @@ const source = {
   user: 'lucasdchamps',
   bot: 'sfr-bot',
   token: '67f986b5299181a7dd49de6ccce3429a',
-  intent: 'abonnement',
+  intent: 'probleme_facture',
 }
 source.url = `https://api.recast.ai/v2/users/${source.user}/bots/${source.bot}`
 
@@ -20,7 +20,7 @@ const target = {
   user: 'recast-ai',
   bot: 'sfr',
   token: '5b3f5d6f7a5bc2138558c5c24f60396e',
-  intent: 'test',
+  intent: 'probleme_facture_splitting',
 }
 target.url = `https://api.recast.ai/v2/users/${target.user}/bots/${target.bot}`
 

@@ -114,6 +114,10 @@ export default class Script extends Helper {
       await this.target.addExpression(target.intent[key], source.expressions[0].source, source.expressions[0].language.isocode)
       source.expressions.shift()
 
+      // remove expression to source
+      this.log(`*** remove expression to intent '${source.intent}' in bot '${source.bot}'`)
+      await this.source.delExpression(source.intent, source.expressions[0].id)
+
     } catch (error) { this.bloc('Error in addExpressionTo method', `${error}`) }
   }
 
