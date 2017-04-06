@@ -15,6 +15,5 @@ network.use('/', (req, res) => {
 })
 
 network.listen(network.get('port'), () => {
-  process.stdout.write(`Listening port ${config.port}, running script..\r\n`)
   script.start()
 })
