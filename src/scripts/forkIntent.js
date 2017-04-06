@@ -1,6 +1,6 @@
 import request from 'superagent'
 import _ from 'lodash'
-import Helper from './helper'
+import Helper from '../helper'
 
 const source = {
   user: 'lucasdchamps',
@@ -30,7 +30,7 @@ export default class Script extends Helper {
     try {
 
       this.log('verif is target already have this intent')
-      if (await this.targetIntentExist() === true) { throw Error(`intent ${target.intent} already exist in target`) }
+      if (await this.targetIntentExist() === true) { throw Error(`intent '${target.intent}' already exist in target`) }
 
       this.log('verif is source have this intent')
       source.intent = await this.getSourceIntent()
