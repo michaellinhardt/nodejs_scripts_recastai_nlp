@@ -2,7 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 
 import config from '../config/private'
-import Script from './scripts/forkIntent'
+import Script from './scripts/mergeIntent'
 
 const script = new Script()
 
