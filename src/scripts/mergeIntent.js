@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import Helper from './helper'
-import Recastapi from './recastapi'
+import Helper from '../helper'
+import Recastapi from '../recastapi'
 
 const source = {
   user: 'lucasdchamps',
