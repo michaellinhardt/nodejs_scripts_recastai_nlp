@@ -6,7 +6,7 @@ const source = {
   user: 'lucasdchamps',
   bot: 'sfr-bot',
   token: '67f986b5299181a7dd49de6ccce3429a',
-  intent: 'changer_mode_paiement',
+  intent: 'changer_date_prelevement',
 }
 source.url = `https://api.recast.ai/v2/users/${source.user}/bots/${source.bot}`
 
@@ -14,7 +14,7 @@ const target = {
   user: 'michael-linhardt',
   bot: 'fork-intent',
   token: '1591381a501fc1de88051797076b81ea',
-  intent: 'changer-mode-paiement',
+  intent: 'changer-forfait',
 }
 target.url = `https://api.recast.ai/v2/users/${target.user}/bots/${target.bot}`
 
