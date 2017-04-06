@@ -4,7 +4,7 @@ import prettyjson from 'prettyjson'
 export default class Helper {
   json (object) { process.stdout.write(`${prettyjson.render(object)}\r\n`) }
   log (mVar) { process.stdout.write(`${mVar}\r\n`) }
-  err (method, err) { this.bloc(`class Script, method: ${method}\r\n${err}`) }
+  err (method, error) { this.bloc(`Error method: ${method}\r\n${error}`) }
 
   bloc (title, data, whiteline) {
     if (whiteline) { this.log('.') }
