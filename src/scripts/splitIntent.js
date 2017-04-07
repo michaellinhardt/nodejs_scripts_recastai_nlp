@@ -61,16 +61,16 @@ export default class Script extends Helper {
     }
 
     if (this.mode === 'input_target_intent') {
-        // verify if given key is a number
-        if (isNaN(Number(input))) {
-          this.log('*** send the number corresponding to the intent listed')
-          return this.nextExpression()
-        }
-        // verify if given key is in intent list
-        if (!target.intents[Number(input)]) {
-          this.log('*** wrong number..')
-          return this.nextExpression()
-        }
+      // verify if given key is a number
+      if (isNaN(Number(input))) {
+        this.log('*** send the number corresponding to the intent listed')
+        return this.nextExpression()
+      }
+      // verify if given key is in intent list
+      if (!target.intents[Number(input)]) {
+        this.log('*** wrong number..')
+        return this.nextExpression()
+      }
       // do the job
       this.mode = 'locked'
       await this.addExpressionTo(Number(input))
