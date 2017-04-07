@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import Helper from '../helper'
 import Recastapi from '../recastapi'
-import token from '../../config/token'
+import token from '../config/token'
 
 const source = { ...token.lucas_sfr }
 source.intent = 'pas_pu_lire_reponse'

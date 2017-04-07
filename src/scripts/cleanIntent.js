@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import token from '../../config/token'
+import token from '../config/token'
 import Helper from '../helper'
 import Recastapi from '../recastapi'
 

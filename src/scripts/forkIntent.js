@@ -1,13 +1,13 @@
 import _ from 'lodash'
 import Helper from '../helper'
 import Recastapi from '../recastapi'
-import token from '../../config/token'
+import token from '../config/token'
 
 const source = { ...token.lucas_sfr }
 source.intent = 'activation'
 
 const target = { ...token.sfr }
-target.intent = 'activation_splitting'
+target.intent = 'testing'
 
 export default class Script extends Helper {
   constructor () {
