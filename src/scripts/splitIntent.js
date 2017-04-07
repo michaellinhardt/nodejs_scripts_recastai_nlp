@@ -6,14 +6,13 @@ import Terminal from '../terminal'
 import token from '../../config/token'
 
 const source = { ...token.sfr }
-source.intent = 'activation_splitting'
+source.intent = 'test'
 
 const target = { ...token.sfr }
 target.intent = [
   'trash',
-  'activation-ligne',
-  'activation-sim',
-  'debloquer-sim',
+  'test1',
+  'test2',
 ]
 
 export default class Script extends Helper {
@@ -50,7 +49,10 @@ export default class Script extends Helper {
   }
 
   async terminal_handler (input) {
-    if (_.isEmpty(input)) { return }
+    if (_.isEmpty(input)) {
+      source.expressions.shift()
+      return this.nextExpression()
+    }
 
     const mode = this.mode.split('_')
     if (mode[0] !== 'input') {
@@ -59,8 +61,20 @@ export default class Script extends Helper {
     }
 
     if (this.mode === 'input_target_intent') {
+        // verify if given key is a number
+        if (isNaN(Number(input))) {
+          this.log('*** send the number corresponding to the intent listed')
+          return this.nextExpression()
+        }
+        // verify if given key is in intent list
+        if (!target.intents[Number(input)]) {
+          this.log('*** wrong number..')
+          return this.nextExpression()
+        }
+      // do the job
       this.mode = 'locked'
       await this.addExpressionTo(Number(input))
+      source.expressions.shift()
       this.nextExpression()
 
     } else {
@@ -70,17 +84,6 @@ export default class Script extends Helper {
 
   async addExpressionTo (key) {
     try {
-      // verify if given key is a number
-      if (isNaN(key)) {
-        this.log('*** send the number corresponding to the intent listed')
-        return
-      }
-
-      // verify if given key is in intent list
-      if (!target.intents[key]) {
-        this.log('*** wrong number..')
-        return
-      }
 
       // verify if intent exist and create it if needed
       if (target.intents[key].isCreated === false) {
@@ -101,14 +104,12 @@ export default class Script extends Helper {
       // verify if expression already exist
       if (await this.target.isExpression(target.intent[key], source.expressions[0].source) !== -1) {
         this.log(`*** expression already exist inside intent '${target.intent[key]}' in bot '${target.bot}'`)
-        source.expressions.shift()
         return
       }
 
       // add expression
       this.log(`*** add expression to intent '${target.intent[key]}' in bot '${target.bot}'`)
       await this.target.addExpression(target.intent[key], source.expressions[0].source, source.expressions[0].language.isocode)
-      source.expressions.shift()
 
     } catch (error) { this.bloc('Error in addExpressionTo method', `${error}`) }
   }
