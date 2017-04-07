@@ -3,13 +3,18 @@ import _ from 'lodash'
 import Helper from '../helper'
 import Recastapi from '../recastapi'
 import Terminal from '../terminal'
-import token from '../config/token'
+import token from '../../config/token'
 
 const source = { ...token.sfr }
-source.intent = 'probleme_facture_splitting'
+source.intent = 'activation_splitting'
 
 const target = { ...token.sfr }
-target.intent = ['ecart-facturation', 'hors-forfait']
+target.intent = [
+  'trash',
+  'activation-ligne',
+  'activation-sim',
+  'debloquer-sim',
+]
 
 export default class Script extends Helper {
   constructor () {
@@ -91,7 +96,6 @@ export default class Script extends Helper {
 
       // remove expression to source
       this.log(`*** remove expression to intent '${source.intent}' in bot '${source.bot}'`)
-      this.json(source.expressions[0])
       await this.source.delExpression(source.intent, source.expressions[0].id)
 
       // verify if expression already exist
@@ -122,7 +126,7 @@ export default class Script extends Helper {
 
     // displaying the expression
     this.log(`\r\nExpression number ${source.expressions.length}:`)
-    this.log(`${source.expressions[0].source}`)
+    this.log(`\x1b[33m${source.expressions[0].source}\x1b[0m`)
 
     // displaying intents list
     this.log(` ${_.reduce(target.intents, (acc, intent, key) => {

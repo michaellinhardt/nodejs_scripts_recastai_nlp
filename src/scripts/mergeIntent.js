@@ -1,13 +1,13 @@
 import _ from 'lodash'
 import Helper from '../helper'
 import Recastapi from '../recastapi'
-import token from '../config/token'
+import token from '../../config/token'
 
 const source = { ...token.lucas_sfr }
-source.intent = 'changer_mobile'
+source.intent = 'pas_pu_lire_reponse'
 
 const target = { ...token.sfr }
-target.intent = 'nouveau-mobile'
+target.intent = 'trash'
 
 export default class Script extends Helper {
   constructor () {
