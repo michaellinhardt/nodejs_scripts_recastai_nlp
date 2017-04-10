@@ -14,6 +14,17 @@ export default class Recastapi extends Helper {
     this.url = `${apiBaseUrl}/${user}/bots/${bot}`
   }
 
+  jsonExpressions (jsonExpressions, jsonExpressionsLang) {
+    const expressions = []
+    _.forEach(jsonExpressions, expression => {
+      expressions.push({
+        source: expression,
+        language: { isocode: jsonExpressionsLang },
+      })
+    })
+    return expressions
+  }
+
   delExpression (intent, idExpression) {
     return new Promise((resolve, reject) => {
       request

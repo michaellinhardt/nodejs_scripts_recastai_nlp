@@ -1,3 +1,10 @@
+/*
+** Supprime tous les intent d'un bot
+** config:
+** const target = { ...token.fork_intent }
+** NB: ATTENTION SA SUPPRIMNE TOUS SANS VERIF
+*/
+
 import _ from 'lodash'
 
 import Helper from '../helper'

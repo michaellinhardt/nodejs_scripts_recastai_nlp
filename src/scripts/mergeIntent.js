@@ -3,11 +3,15 @@ import Helper from '../helper'
 import Recastapi from '../recastapi'
 import token from '../config/token'
 
-const source = { ...token.lucas_sfr }
-source.intent = 'pas_pu_lire_reponse'
+import jsonExpressions from '../json/expressions'
+const jsonExpressionsLang = 'fr'
+
+const source = { ...token.europa }
+source.jsonExpressions = true
+source.intent = 'allo'
 
 const target = { ...token.sfr }
-target.intent = 'trash'
+target.intent = 'anglais'
 
 export default class Script extends Helper {
   constructor () {
@@ -28,15 +32,23 @@ export default class Script extends Helper {
         await this.target.addIntent(target.intent)
       }
 
-      // check if the source intent exist
-      this.log(`*** check if intent '${source.intent}' exist in bot '${source.bot}'`)
-      if (await this.source.isIntent(source.intent) < 0) {
-        this.exit(`missing intent '${source.intent}' in bot '${source.bot}'`)
-      }
+      // get expressiosn from json file if jsonExpressions is true
+      if (source.jsonExpressions === true) {
+        this.log(`*** extract ${jsonExpressions.length} expressiosn from json file`)
+        source.expressions = await this.source.jsonExpressions(jsonExpressions, jsonExpressionsLang)
 
-      this.log(`*** get expressions from intent '${source.intent}' in bot '${source.bot}'`)
-      source.expressions = await this.source.getExpressions(source.intent)
-      source.expressions = source.expressions.expressions
+      // get expressions from source bot if jsonExpressions is false
+      } else {
+        // check if the source intent exist
+        this.log(`*** check if intent '${source.intent}' exist in bot '${source.bot}'`)
+        if (await this.source.isIntent(source.intent) < 0) {
+          this.exit(`missing intent '${source.intent}' in bot '${source.bot}'`)
+        }
+
+        this.log(`*** get expressions from intent '${source.intent}' in bot '${source.bot}'`)
+        source.expressions = await this.source.getExpressions(source.intent)
+        source.expressions = source.expressions.expressions
+      }
 
       this.log(`*** get expressions from intent '${target.intent}' in bot '${target.bot}'`)
       target.expressions = await this.target.getExpressions(target.intent)

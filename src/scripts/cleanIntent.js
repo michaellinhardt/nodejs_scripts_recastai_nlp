@@ -1,9 +1,18 @@
+/*
+** Supprime toutes les expressions en double dans un intent
+** information necessaire:
+** const source = { ... token.label_bot }
+** source.intent = 'intent_target'
+*/
+
 import _ from 'lodash'
 import token from '../config/token'
 import Helper from '../helper'
 import Recastapi from '../recastapi'
 
+// account config
 const source = { ...token.fork_intent }
+// target intent
 source.intent = 'test_merge'
 
 export default class Script extends Helper {
@@ -17,7 +26,6 @@ export default class Script extends Helper {
     this.bloc('Starting the script!')
     try {
 
-      // check if the source intent exist
       this.log(`*** check if intent '${source.intent}' exist in bot '${source.bot}'`)
       if (await this.source.isIntent(source.intent) < 0) {
         this.exit(`missing intent '${source.intent}' in bot '${source.bot}'`)

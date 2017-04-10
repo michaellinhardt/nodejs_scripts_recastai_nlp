@@ -1,3 +1,3 @@
-import Script from './scripts/mergeIntent'
+import Script from './scripts/findWord'
 
 (new Script()).start()

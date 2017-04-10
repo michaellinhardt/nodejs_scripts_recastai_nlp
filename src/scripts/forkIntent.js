@@ -3,11 +3,11 @@ import Helper from '../helper'
 import Recastapi from '../recastapi'
 import token from '../config/token'
 
-const source = { ...token.lucas_sfr }
-source.intent = 'activation'
+const source = { ...token.sfr }
+source.intent = 'je-suis-la'
 
-const target = { ...token.sfr }
-target.intent = 'testing'
+const target = { ...token.fork_intent }
+target.intent = 'allo'
 
 export default class Script extends Helper {
   constructor () {
@@ -35,6 +35,8 @@ export default class Script extends Helper {
       // get expressions from source
       this.log(`*** get expressions from intent '${source.intent}' in bot '${source.bot}'`)
       source.expressions = (await this.source.getExpressions(source.intent)).expressions
+
+      this.json(source.expressions)
 
       // build expressions list for request
       const newExpressions = []
