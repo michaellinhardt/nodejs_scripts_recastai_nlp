@@ -8,14 +8,12 @@ import token from '../config/token'
 import Mongo from '../models/mongo'
 
 const source = { ...token.sfr }
-source.intent = 'souscrire-offre'
+source.intent = 'trash'
 
 const target = { ...token.sfr }
 target.createIntent = false
 target.intent = [
   'trash',
-  'souscrire-abonnement',
-  'eligibilite',
 ]
 
 export default class Script extends Helper {
@@ -171,7 +169,7 @@ export default class Script extends Helper {
   }
 
   async reset () {
-    await this.SplitSchema.find({ source_intent: source.intent }).remove().exec()
+    await this.SplitSchema.find({}).remove().exec()
   }
 
   async nextExpression () {

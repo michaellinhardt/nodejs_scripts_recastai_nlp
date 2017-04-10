@@ -30,6 +30,22 @@ export default class Recastapi extends Helper {
     })
   }
 
+  delIntent (intent) {
+    return new Promise((resolve, reject) => {
+      request
+        .delete(`${this.url}/intents/${intent}`)
+        .set('Authorization', `Token ${this.token}`)
+        .send()
+        .end((err, res) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(res.body.results)
+          }
+        })
+    })
+  }
+
   addExpression (intent, expression, lang) {
     return new Promise((resolve, reject) => {
       request

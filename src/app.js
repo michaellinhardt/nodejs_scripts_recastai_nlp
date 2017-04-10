@@ -1,3 +1,3 @@
-import Script from './scripts/splitIntent'
+import Script from './scripts/mergeIntent'
 
 (new Script()).start()
