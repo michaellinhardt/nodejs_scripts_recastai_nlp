@@ -99,7 +99,7 @@ export default class Recastapi extends Helper {
 
   async isIntent (intent) {
     const intents = await this.getIntents()
-    return _.findIndex(intents, { name: intent })
+    return _.findIndex(intents, { slug: intent })
   }
 
   getIntents () {
