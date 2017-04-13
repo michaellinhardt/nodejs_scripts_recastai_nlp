@@ -1,3 +1,3 @@
-import Script from './scripts/findWord'
+import Script from './scripts/cleanIntent'
 
 (new Script()).start()

@@ -8,10 +8,10 @@ const jsonExpressionsLang = 'fr'
 
 const source = { ...token.europa }
 source.jsonExpressions = true
-source.intent = 'allo'
+source.intent = 'news' // only if source.jsonExpressions = false
 
 const target = { ...token.sfr }
-target.intent = 'anglais'
+target.intent = 'horaires'
 
 export default class Script extends Helper {
   constructor () {

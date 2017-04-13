@@ -8,12 +8,16 @@ import token from '../config/token'
 import Mongo from '../models/mongo'
 
 const source = { ...token.sfr }
-source.intent = 'trash'
+source.intent = 'tmp-qwant-intent-need-split'
 
 const target = { ...token.sfr }
-target.createIntent = false
+target.createIntent = true
 target.intent = [
-  'trash',
+  'to-delete',
+  'meteo',
+  'news',
+  'manger',
+  'boire',
 ]
 
 export default class Script extends Helper {
