@@ -24,9 +24,15 @@ export default class Script extends Helper {
   async start () {
     this.bloc('Starting the script!')
     try {
+      if (_.isEmpty(source.intents)) {
+        this.autoIntents = true
+      }
+
       await this.getIntents()
 
-      await this.verifIntents(0)
+      if (this.autoIntents !== true) {
+        await this.verifIntents(0)
+      }
 
       const total = await this.checkIntents(0, 0)
 
