@@ -102,6 +102,22 @@ export default class Recastapi extends Helper {
     return _.findIndex(intents, { slug: intent })
   }
 
+  getLogUnmatched (per_page, page) {
+    return new Promise((resolve, reject) => {
+      request
+        .get(`${this.url}/logs`)
+        .set('Authorization', `Token ${this.token}`)
+        .send({ per_page, page, filter: 'mismatched' })
+        .end((err, res) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(res.body.results)
+          }
+        })
+    })
+  }
+
   getIntents () {
     return new Promise((resolve, reject) => {
       request
