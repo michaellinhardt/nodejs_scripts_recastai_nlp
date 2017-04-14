@@ -49,3 +49,4 @@ export default class Script extends Helper {
   }
 
 }
+(new Script()).start()

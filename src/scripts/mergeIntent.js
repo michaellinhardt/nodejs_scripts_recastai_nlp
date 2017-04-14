@@ -79,3 +79,4 @@ export default class Script extends Helper {
     } catch (error) { this.bloc('Error in start method', `${error}`) }
   }
 }
+(new Script()).start()

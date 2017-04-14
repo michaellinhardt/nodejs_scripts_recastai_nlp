@@ -194,3 +194,4 @@ export default class Script extends Helper {
     this.mode = 'input_target_intent'
   }
 }
+(new Script()).start()

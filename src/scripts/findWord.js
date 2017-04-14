@@ -73,3 +73,4 @@ export default class Script extends Helper {
     } catch (error) { this.bloc('Error in findWord() method', `${error}`) }
   }
 }
+(new Script()).start()

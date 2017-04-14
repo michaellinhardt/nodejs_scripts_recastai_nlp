@@ -110,3 +110,4 @@ export default class Script extends Helper {
     } catch (error) { this.bloc('Error in getNextUnmatched method', `${error.stack}`) }
   }
 }
+(new Script()).start()
