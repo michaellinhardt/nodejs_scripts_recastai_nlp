@@ -1,6 +1,6 @@
 import readline from 'readline'
 
-import Helper from './helper'
+import Helper from '../helpers/helper'
 
 export default class Terminal extends Helper {
   constructor (handler) {

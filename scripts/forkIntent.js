@@ -1,6 +1,10 @@
+/*
+** Fork an intent from source bot to the target bot
+*/
+
 import _ from 'lodash'
-import Helper from '../helper'
-import Recastapi from '../recastapi'
+import Helper from '../helpers/helper'
+import Recastapi from '../helpers/recastapi'
 import token from '../config/token'
 
 const source = { ...token.sfr }

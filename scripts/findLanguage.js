@@ -1,13 +1,18 @@
+/*
+** Find and display all expressions with different language than the one specified
+** source.intents = [ 'intent_slug' ] -> empty to check all intents
+** source.language = 'fr' -> bot language to exclude from the search
+*/
+
 import _ from 'lodash'
 import token from '../config/token'
-import Helper from '../helper'
-import Recastapi from '../recastapi'
+import Helper from '../helpers/helper'
+import Recastapi from '../helpers/recastapi'
 
 // account config
 const source = { ...token.sfr }
 source.intents = [] // if empty array -> get all intent
-source.language = 'fr' // bot language (all other being delete)
-source.delete = []
+source.language = 'fr' // bot language (will find all other language)
 
 export default class Script extends Helper {
   constructor () {
@@ -19,9 +24,12 @@ export default class Script extends Helper {
   async start () {
     this.bloc('Starting the script!')
     try {
+      // will result to bypass intents verif if we load theme from an api call
       if (_.isEmpty(source.intents)) {
         this.autoIntents = true
       }
+
+      source.result = []
 
       await this.getIntents()
 
@@ -31,7 +39,7 @@ export default class Script extends Helper {
 
       const total = await this.checkIntents(0, 0)
 
-      this.json(source.delete)
+      this.json(source.result)
 
       this.exit(`done, ${total} expression(s) with bad language`)
 
@@ -83,7 +91,7 @@ export default class Script extends Helper {
 
       if (this.isBadLanguage(key) === true) {
         total += 1
-        source.delete.unshift({
+        source.result.unshift({
           intent,
           id: source.expressions[key].id,
           source: source.expressions[key].source,

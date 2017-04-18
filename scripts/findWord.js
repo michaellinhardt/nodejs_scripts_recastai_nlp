@@ -1,7 +1,11 @@
+/*
+** find and display all occurence to a word in all intents from a bot
+*/
+
 import _ from 'lodash'
 import token from '../config/token'
-import Helper from '../helper'
-import Recastapi from '../recastapi'
+import Helper from '../helpers/helper'
+import Recastapi from '../helpers/recastapi'
 
 const source = { ...token.sfr }
 source.word = 'fils'
@@ -11,9 +15,7 @@ export default class Script extends Helper {
     super()
     this.mode = 'starting'
     this.source = new Recastapi(source.user, source.bot, source.token)
-    this.result = {
-      count: 0,
-    }
+    this.result = { count: 0 }
   }
 
   async start () {

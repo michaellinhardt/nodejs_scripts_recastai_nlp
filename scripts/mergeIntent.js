@@ -1,14 +1,20 @@
+/*
+** Take all expressions from the source.intent bot and add theme to the target.intent
+** dont add duplicated data and create the target if dont exist
+** + you can use instead of source.intent, the array of expressions in json/jsonExpressions.js
+*/
+
 import _ from 'lodash'
-import Helper from '../helper'
-import Recastapi from '../recastapi'
+import Helper from '../helpers/helper'
+import Recastapi from '../helpers/recastapi'
 import token from '../config/token'
 
 import jsonExpressions from '../json/expressions'
 const jsonExpressionsLang = 'fr'
 
 const source = { ...token.europa }
-source.jsonExpressions = true
-source.intent = 'news' // only if source.jsonExpressions = false
+source.jsonExpressions = true // use the json/jsonExpressions instead of source.intent
+source.intent = 'news'
 
 const target = { ...token.sfr }
 target.intent = 'horaires'

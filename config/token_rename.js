@@ -4,18 +4,24 @@ module.exports = {
   {
     user: 'michael-linhardt',
     bot: 'fork-intent',
-    token: 'xxx',
+    token: 'xx',
   },
   lucas_sfr:
   {
     user: 'lucasdchamps',
     bot: 'sfr-bot',
-    token: 'xxx',
+    token: 'xx',
   },
   sfr:
   {
     user: 'recast-ai',
     bot: 'sfr',
-    token: 'xxx',
+    token: 'xx',
+  },
+  europa:
+  {
+    user: 'jerome',
+    bot: 'dev-europ-assistance',
+    token: 'xx',
   },
 }

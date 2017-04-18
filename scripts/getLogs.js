@@ -1,8 +1,14 @@
+/*
+** Script to dispatch log in a list of intent
+** useless atm because it is not faster than the plateform (selectingn target intents is bad designed)
+** source.intents = [ 'intent_target' ] -> list of intents where log can be dispatch
+*/
+
 import _ from 'lodash'
 import token from '../config/token'
-import Helper from '../helper'
-import Recastapi from '../recastapi'
-import Terminal from '../terminal'
+import Helper from '../helpers/helper'
+import Recastapi from '../helpers/recastapi'
+import Terminal from '../helpers/terminal'
 
 // account config
 const source = { ...token.sfr }

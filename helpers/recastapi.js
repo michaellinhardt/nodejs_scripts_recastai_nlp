@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import request from 'superagent'
 
-import Helper from './helper'
+import Helper from '../helpers/helper'
 
 const apiBaseUrl = 'https://api.recast.ai/v2/users'
 

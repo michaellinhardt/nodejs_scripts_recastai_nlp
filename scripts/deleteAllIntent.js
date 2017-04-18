@@ -2,13 +2,13 @@
 ** Supprime tous les intent d'un bot
 ** config:
 ** const target = { ...token.fork_intent }
-** NB: ATTENTION SA SUPPRIMNE TOUS SANS VERIF
+** NB: ATTENTION SA SUPPRIMNE VRAIMENT LES INTENT
 */
 
 import _ from 'lodash'
 
-import Helper from '../helper'
-import Recastapi from '../recastapi'
+import Helper from '../helpers/helper'
+import Recastapi from '../helpers/recastapi'
 import token from '../config/token'
 
 const target = { ...token.fork_intent }
@@ -23,6 +23,8 @@ export default class Script extends Helper {
   async start () {
     this.bloc('Starting the script!')
     try {
+      this.exit('*** comment this ligne if you are sure about what you do..')
+
       // get intents list
       const intents = await this.target.getIntents()
 

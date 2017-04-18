@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 import _config from '../config/mongo'
 
-import Helper from '../helper'
+import Helper from '../helpers/helper'
 
 module.exports = class Mongo extends Helper {
   /*

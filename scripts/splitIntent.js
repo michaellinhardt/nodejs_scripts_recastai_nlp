@@ -1,11 +1,16 @@
+/*
+** for each expressions of source.intent you can push enter to skip or chose one of the
+** intents in target.intent to move the expressions
+*/
+
 import _ from 'lodash'
 
-import Helper from '../helper'
-import Recastapi from '../recastapi'
-import Terminal from '../terminal'
+import Helper from '../helpers/helper'
+import Recastapi from '../helpers/recastapi'
+import Terminal from '../helpers/terminal'
 import token from '../config/token'
 
-import Mongo from '../models/mongo'
+import Mongo from '../helpers/mongo'
 
 const source = { ...token.sfr }
 source.intent = 'tmp-qwant-intent-need-split'
