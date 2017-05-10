@@ -30,7 +30,7 @@ const token = {
 
 // source and target bot
 const source = { ...token.sfr_clustering }
-const target = { ...token.test_bot }
+const target = { ...token.sfr }
 
 export default class Script {
   constructor () {
