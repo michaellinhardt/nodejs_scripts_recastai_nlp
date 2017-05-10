@@ -12,12 +12,12 @@ import token from '../config/token'
 import jsonExpressions from '../json/expressions'
 const jsonExpressionsLang = 'fr'
 
-const source = { ...token.europa }
-source.jsonExpressions = true // use the json/jsonExpressions instead of source.intent
-source.intent = 'news'
+const source = { ...token.sfr }
+source.jsonExpressions = false // use the json/jsonExpressions instead of source.intent
+source.intent = 'small-identite'
 
 const target = { ...token.sfr }
-target.intent = 'horaires'
+target.intent = 'small-qui-est-tu'
 
 export default class Script extends Helper {
   constructor () {
