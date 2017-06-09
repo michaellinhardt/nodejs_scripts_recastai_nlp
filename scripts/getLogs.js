@@ -1,4 +1,6 @@
 /*
+** Script pas tellement utile car pas ergonomique, mais le code peut recervire
+**
 ** Script to dispatch log in a list of intent
 ** useless atm because it is not faster than the plateform (selectingn target intents is bad designed)
 ** source.intents = [ 'intent_target' ] -> list of intents where log can be dispatch

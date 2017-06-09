@@ -1,5 +1,5 @@
 /*
-** find and display all occurence to a word in all intents from a bot
+** Affiche toutes les occurence à un mot dans tous les intent du bot
 */
 
 import _ from 'lodash'
@@ -7,6 +7,11 @@ import token from '../config/token'
 import Helper from '../helpers/helper'
 import Recastapi from '../helpers/recastapi'
 
+/*
+** const source -> account config
+** le mot a rechercher ->
+**    source.word = 'mot'
+*/
 const source = { ...token.sfr }
 source.word = 'fils'
 

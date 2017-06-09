@@ -1,6 +1,9 @@
 /*
-** for each expressions of source.intent you can push enter to skip or chose one of the
-** intents in target.intent to move the expressions
+** for each expressions of source.intent from the source bot,
+** you will have a menu to:
+** - move the expressions in one of the intent listed in target.intent
+** - press enter to leave this expressions in the current intent
+** NB: moving the expressions mean it is deleted from the source intent
 */
 
 import _ from 'lodash'

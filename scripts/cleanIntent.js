@@ -1,9 +1,5 @@
 /*
-** Supprime toutes les expressions en double dans un intent
-** information necessaire:
-** const source = { ... token.label_bot }
-** source.intents = [ 'intent_slug' ]
-** NB: si source.intents est vide, s'execute sur tous les intents du bot
+** Supprime toutes les expressions en double dans un intent ou sur tous les intent
 */
 
 import _ from 'lodash'
@@ -11,9 +7,15 @@ import token from '../config/token'
 import Helper from '../helpers/helper'
 import Recastapi from '../helpers/recastapi'
 
-// account config
+/*
+** source is the account and intent config
+** To target one or multiple intent use:
+**    source.intents = ['intent1', 'intent2'] 
+** To target all intent use:
+**    source.intents = []
+*/
 const source = { ...token.sfr }
-source.intents = [] // if empty array -> get all intent
+source.intents = []
 
 export default class Script extends Helper {
   constructor () {

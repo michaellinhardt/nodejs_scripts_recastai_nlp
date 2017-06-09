@@ -1,5 +1,5 @@
 /*
-** Fork an intent from source bot to the target bot
+** Fork un seul intent d'un bot vers un autre
 */
 
 import _ from 'lodash'
@@ -7,9 +7,19 @@ import Helper from '../helpers/helper'
 import Recastapi from '../helpers/recastapi'
 import token from '../config/token'
 
+/*
+** const source -> account config, le bot contenant l'intent
+** l'intent a fork ->
+**    source.intent = 'je-suis-la'
+*/
 const source = { ...token.sfr }
 source.intent = 'je-suis-la'
 
+/*
+** const target -> account config, le bot recevant l'intent
+** l'intent recevant les expressions ->
+**    source.target = 'fork-je-suis-la'
+*/
 const target = { ...token.fork_intent }
 target.intent = 'allo'
 

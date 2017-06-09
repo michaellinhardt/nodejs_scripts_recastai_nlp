@@ -1,7 +1,6 @@
 /*
-** Find and display all expressions with different language than the one specified
-** source.intents = [ 'intent_slug' ] -> empty to check all intents
-** source.language = 'fr' -> bot language to exclude from the search
+** Spéciez une langue,
+** le script affiche les expressions qui ne sont pas dans cette langue
 */
 
 import _ from 'lodash'
@@ -9,10 +8,18 @@ import token from '../config/token'
 import Helper from '../helpers/helper'
 import Recastapi from '../helpers/recastapi'
 
-// account config
+/*
+** const source -> account config
+** pour target tous les intent du bot ->
+**    source.intents = []
+** pour target une liste d'intent définie
+**    source.intents = [ 'intent_slug', 'intent2', ... ]
+** spécifier la langue du bot a ne pas rechercher ->
+**    source.language = 'fr'
+*/
 const source = { ...token.sfr }
-source.intents = [] // if empty array -> get all intent
-source.language = 'fr' // bot language (will find all other language)
+source.intents = []
+source.language = 'fr'
 
 export default class Script extends Helper {
   constructor () {

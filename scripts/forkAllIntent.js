@@ -1,34 +1,16 @@
 /*
-** Fork all intent from source bot to the target bot
+** Fork TOUS les intent d'un bot vers un autre bot
 */
 
 import _ from 'lodash'
+import token from '../config/token'
 import Recastapi from '../helpers/recastapi'
 import prettyjson from 'prettyjson'
 
-// token
-const token = {
-  sfr:
-  {
-    user: 'recast-ai',
-    bot: 'sfr',
-    token: '5b3f5d6f7a5bc2138558c5c24f60396e',
-  },
-  sfr_clustering:
-  {
-    user: 'nathan',
-    bot: 'sfr-small-clustering-output',
-    token: 'e4abaeaed9364b7837812f02589277e5',
-  },
-  test_bot:
-  {
-    user: 'michael-linhardt',
-    bot: 'fork-intent',
-    token: '1591381a501fc1de88051797076b81ea',
-  },
-}
-
-// source and target bot
+/*
+** const source -> account config, le bot contenant les intent
+** const target -> account config, le bot recevant les intent
+*/
 const source = { ...token.sfr_clustering }
 const target = { ...token.sfr }
 
